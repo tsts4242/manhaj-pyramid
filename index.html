@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منهج الصلاح والفوز - لتعرية الباطل وفهم الدين</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="header-card">
+        <h1>منهج الصلاح والفوز</h1>
+        <p class="subtitle">لتعرية الباطل وفهم الدين</p>
+        <p class="tagline">من القاعدة للقمة</p>
+        <div class="author-badge">تصميم: صلاح الدين فوزي بن تعاريت</div>
+    </div>
+
+    <button class="pyramid-btn" onclick="togglePyramid()">
+        <span>الهرم البحثي المتدرج</span>
+        <span id="pyramid-icon">▲</span>
+    </button>
+
+    <div class="pyramid-container" id="pyramid-box">
+        <img src="pyramid.png" alt="منهج هرم الصلاح والفوز">
+        <div class="pyramid-note-box">يسهل ويسرع الوصول للمعلومة بضغطة زر واحدة</div>
+        <button class="pyramid-back-btn" onclick="returnToMain()">العودة</button>
+    </div>
+
+    <div class="search-card">
+        <input type="text" id="quran-word" class="search-input" placeholder="اكتب هنا اللفظ المراد تدبره" onkeypress="if(event.key==='Enter') startContemplation()">
+        <div class="actions">
+            <button class="btn-submit" id="submit-btn" onclick="startContemplation()">ابدأ التدبر</button>
+            <button class="btn-clear" onclick="clearInput()">فسخ</button>
+        </div>
+    </div>
+
+    <div class="loader" id="loader">جاري الاستقراء الشامل عبر الإنترنت وتطبيق المستويات الستة...</div>
+
+    <div class="results-wrapper" id="results-wrapper">
+        <div class="level-card"><div class="level-header">المستوى الأول</div><div class="level-body" id="content-1"></div></div>
+        <div class="level-card"><div class="level-header">المستوى الثاني</div><div class="level-body" id="content-2"></div></div>
+        <div class="level-card"><div class="level-header">المستوى الثالث</div><div class="level-body" id="content-3"></div></div>
+        <div class="level-card"><div class="level-header">المستوى الرابع</div><div class="level-body" id="content-4"></div></div>
+        <div class="level-card"><div class="level-header">المستوى الخامس</div><div class="level-body" id="content-5"></div></div>
+        <div class="level-card"><div class="level-header">المستوى السادس</div><div class="level-body" id="content-6"></div></div>
+    </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
