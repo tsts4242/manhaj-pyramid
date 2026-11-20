@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منهج الصلاح والفوز - لتعرية الباطل وفهم الدين</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; color: #0d2b52; padding: 16px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 520px; }
+
+        .header-card {
+            background: linear-gradient(135deg, #0d2b52 0%, #163d70 100%);
+            color: #ffffff;
+            padding: 24px 18px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(13, 43, 82, 0.2);
+            margin-bottom: 16px;
+            border-bottom: 4px solid #c59b27;
+        }
+        .header-card h1 { font-size: 26px; margin-bottom: 6px; color: #ffffff; }
+        .header-card .subtitle { font-size: 16px; color: #f3d27a; font-weight: bold; margin-bottom: 4px; }
+        .header-card .tagline { font-size: 14px; color: #dce4ee; margin-bottom: 14px; }
+        .author-badge {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #0d2b52;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .pyramid-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #164e87;
+            color: #ffffff;
+            border: 2px solid #c59b27;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.15s, background-color 0.2s;
+        }
+        .pyramid-btn:active { transform: scale(0.98); }
+        .pyramid-btn-en {
+            background-color: #064e3b;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .pyramid-container {
+            display: none;
+            background: #ffffff;
+            border: 2px solid #c59b27;
+            border-radius: 14px;
+            padding: 14px;
+            margin-top: 10px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .pyramid-container img { width: 100%; height: auto; border-radius: 10px; margin-bottom: 10px; }
+        .pyramid-note-box {
+            background-color: #fdf8e8;
+            color: #0d2b52;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 1px solid #c59b27;
+            margin-bottom: 10px;
+        }
+        .pyramid-back-btn {
+            background-color: #0d2b52;
+            color: #ffffff;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-card {
+            background-color: #ffffff;
+            padding: 16px;
+            border-radius: 16px;
+            margin-top: 16px;
+            border: 1.5px solid #cbd5e1;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+        }
+        .search-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 17px;
+            text-align: center;
+            font-weight: bold;
+            color: #0d2b52;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .search-input:focus { border-color: #c59b27; }
+
+        .actions { display: flex; gap: 10px; }
+        .btn-submit {
+            flex: 2;
+            padding: 13px;
+            background-color: #0d2b52;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-submit:active { transform: scale(0.98); }
+        .btn-clear {
+            flex: 1;
+            padding: 13px;
+            background-color: #e2e8f0;
+            color: #0d2b52;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-clear:active { transform: scale(0.98); }
+
+        .levels-bar { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; direction: rtl; }
+        .level-btn {
+            flex: 1;
+            padding: 10px 0;
+            border: 2px solid #c59b27;
+            background-color: #ffffff;
+            color: #0d2b52;
+            font-weight: bold;
+            font-size: 17px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .level-btn.active {
+            background-color: #c59b27;
+            color: #0d2b52;
+            box-shadow: 0 3px 8px rgba(197, 155, 39, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .loader { display: none; margin: 22px 0; text-align: center; }
+        .loader-single-line {
+            white-space: nowrap;
+            font-size: clamp(14px, 4vw, 17px);
+            font-weight: bold;
+            color: #0d2b52;
+            margin-bottom: 12px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #c59b27;
+            border-bottom: 4px solid #0d2b52;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .results-wrapper { display: none; flex-direction: column; margin-top: 16px; }
+        .level-card {
+            display: none;
+            background: #ffffff;
+            border-radius: 14px;
+            border: 2px solid #c59b27;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+        }
+        .level-card.active-card { display: block; }
+        .level-header {
+            background-color: #0d2b52;
+            color: #f3d27a;
+            padding: 12px 16px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .level-body { padding: 16px; line-height: 1.7; font-size: 15px; }
+        .tool-tag {
+            background-color: #fdf8e8;
+            color: #0d2b52;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            border-right: 4px solid #c59b27;
+        }
+        .section-block { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+        .section-label { font-weight: bold; color: #164e87; display: block; margin-bottom: 4px; }
+        .verse-item { background: #f8fafc; padding: 10px 12px; border-radius: 10px; margin-bottom: 8px; border-right: 3px solid #0d2b52; }
+        .verse-meta { font-size: 13px; font-weight: bold; color: #c59b27; margin-bottom: 4px; }
+        .highlight-word { background-color: #fef08a; padding: 0 3px; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-card">
+        <h1>منهج الصلاح والفوز</h1>
+        <p class="subtitle">لتعرية الباطل وفهم الدين</p>
+        <p class="tagline">من القاعدة للقمة</p>
+        <div class="author-badge">تصميم: صلاح الدين فوزي بن تعاريت</div>
+    </div>
+
+    <button type="button" class="pyramid-btn" id="btn-pyr-1">
+        <span>الهرم البحثي المتدرج</span>
+    </button>
+
+    <div class="pyramid-container" id="pyramid-box-1">
+        <img src="pyramid1.png" alt="منهج هرم الصلاح والفوز">
+        <div class="pyramid-note-box">يسهل ويسرع الوصول للمعلومة بضغطة زر</div>
+        <button type="button" class="pyramid-back-btn" id="btn-back-1">العودة</button>
+    </div>
+
+    <button type="button" class="pyramid-btn pyramid-btn-en" dir="ltr" id="btn-pyr-2">
+        <span>Asalah and Fawz Pyramid</span>
+    </button>
+
+    <div class="pyramid-container" id="pyramid-box-2">
+        <img src="pyramid2.png" alt="Asalah and Fawz Pyramid">
+        <div class="pyramid-note-box" dir="ltr">Facilitating the Understanding of Religion</div>
+        <button type="button" class="pyramid-back-btn" id="btn-back-2">العودة</button>
+    </div>
+
+    <div class="search-card">
+        <input type="text" id="quran-word" class="search-input" placeholder="اكتب هنا اللفظ المراد تدبره">
+        <div class="actions">
+            <button type="button" class="btn-submit" id="submit-btn">ابدأ التدبر</button>
+            <button type="button" class="btn-clear" id="clear-btn">فسخ</button>
+        </div>
+        <div class="levels-bar" id="levelsBar">
+            <button type="button" class="level-btn" data-lvl="1">1</button>
+            <button type="button" class="level-btn" data-lvl="2">2</button>
+            <button type="button" class="level-btn" data-lvl="3">3</button>
+            <button type="button" class="level-btn" data-lvl="4">4</button>
+            <button type="button" class="level-btn" data-lvl="5">5</button>
+            <button type="button" class="level-btn" data-lvl="6">6</button>
+        </div>
+    </div>
+
+    <div class="loader" id="loader">
+        <div class="loader-single-line" id="loader-text">جاري التدبر بحسب المستويات</div>
+        <div class="spinner"></div>
+    </div>
+
+    <div class="results-wrapper" id="results-wrapper">
+        <div class="level-card" id="card-1"><div class="level-header">المستوى الأول</div><div class="level-body" id="content-1"></div></div>
+        <div class="level-card" id="card-2"><div class="level-header">المستوى الثاني</div><div class="level-body" id="content-2"></div></div>
+        <div class="level-card" id="card-3"><div class="level-header">المستوى الثالث</div><div class="level-body" id="content-3"></div></div>
+        <div class="level-card" id="card-4"><div class="level-header">المستوى الرابع</div><div class="level-body" id="content-4"></div></div>
+        <div class="level-card" id="card-5"><div class="level-header">المستوى الخامس</div><div class="level-body" id="content-5"></div></div>
+        <div class="level-card" id="card-6"><div class="level-header">المستوى السادس</div><div class="level-body" id="content-6"></div></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var cachedQuran = {};
+    var levelCache = {};
+
+    function isEnglishText(t) { return /[a-zA-Z]/.test(t); }
+    function noTash(t) { return t ? t.replace(/[ً-ٰٟ]/g, '') : ''; }
+
+    function hl(t, w, isEn) {
+        if (!w || !t) return t;
+        if (isEn) {
+            var esc = w.replace(/[.*+?^${}()|[\]\]/g, '\$&');
+            return t.replace(new RegExp('(' + esc + ')', 'gi'), '<mark class="highlight-word">$1</mark>');
+        }
+        return t.split(w).join('<mark class="highlight-word">' + w + '</mark>');
+    }
+
+    document.getElementById('btn-pyr-1').addEventListener('click', function() {
+        var b1 = document.getElementById('pyramid-box-1');
+        var b2 = document.getElementById('pyramid-box-2');
+        b2.style.display = 'none';
+        b1.style.display = (b1.style.display === 'block') ? 'none' : 'block';
+    });
+
+    document.getElementById('btn-pyr-2').addEventListener('click', function() {
+        var b1 = document.getElementById('pyramid-box-1');
+        var b2 = document.getElementById('pyramid-box-2');
+        b1.style.display = 'none';
+        b2.style.display = (b2.style.display === 'block') ? 'none' : 'block';
+    });
+
+    document.getElementById('btn-back-1').addEventListener('click', function() {
+        document.getElementById('pyramid-box-1').style.display = 'none';
+    });
+    document.getElementById('btn-back-2').addEventListener('click', function() {
+        document.getElementById('pyramid-box-2').style.display = 'none';
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', function() {
+        document.getElementById('quran-word').value = '';
+        document.getElementById('results-wrapper').style.display = 'none';
+        document.getElementById('loader').style.display = 'none';
+        for (var i = 1; i <= 6; i++) {
+            document.getElementById('content-' + i).innerHTML = '';
+        }
+        levelCache = {};
+        document.querySelectorAll('.level-btn').forEach(function(b) { b.classList.remove('active'); });
+    });
+
+    document.getElementById('submit-btn').addEventListener('click', function() { runLevel(1); });
+    document.getElementById('quran-word').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') runLevel(1);
+    });
+
+    document.querySelectorAll('.level-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var lvl = parseInt(this.getAttribute('data-lvl'), 10);
+            runLevel(lvl);
+        });
+    });
+
+    async function getQuranMatches(word, isEn) {
+        var key = (isEn ? "en_" : "ar_") + word.toLowerCase();
+        if (cachedQuran[key]) return cachedQuran[key];
+        var ed = isEn ? 'en.sahih' : 'quran-simple-clean';
+        var url = 'https://api.alquran.cloud/v1/search/' + encodeURIComponent(word) + '/all/' + ed;
+        try {
+            var r = await fetch(url);
+            var res = await r.json();
+            var m = (res && res.data && res.data.matches) ? res.data.matches : [];
+            cachedQuran[key] = m;
+            return m;
+        } catch (e) {
+            return [];
+        }
+    }
+
+    async function runLevel(lvl) {
+        var word = document.getElementById('quran-word').value.trim();
+        if (!word) {
+            alert('يرجى كتابة اللفظ المراد تدبره أولاً');
+            return;
+        }
+
+        var isEn = isEnglishText(word);
+        var hAr = [
+            "المستوى الأول: الصرف والاشتقاق والمعجم",
+            "المستوى الثاني: السياق والآيات القرآنية",
+            "المستوى الثالث: الكتب السابقة",
+            "المستوى الرابع: الميزان القرآني والمرويات",
+            "المستوى الخامس: الآيات المحكمات والأحكام",
+            "المستوى السادس: علوم القمة والتأويل"
+        ];
+        var hEn = [
+            "Level 1: Morphology & Lexicon",
+            "Level 2: Syntax & Quranic Verses",
+            "Level 3: Previous Scriptures",
+            "Level 4: Quranic Criterion & Narrations",
+            "Level 5: Decisive Rulings (Muhkam)",
+            "Level 6: Summit Sciences & Ta'wil"
+        ];
+
+        document.querySelectorAll('.level-btn').forEach(function(b, i) {
+            b.classList.toggle('active', i + 1 === lvl);
+        });
+        document.querySelectorAll('.level-card').forEach(function(c, i) {
+            c.querySelector('.level-header').textContent = isEn ? hEn[i] : hAr[i];
+            c.setAttribute('dir', isEn ? 'ltr' : 'rtl');
+            c.style.textAlign = isEn ? 'left' : 'right';
+            c.classList.toggle('active-card', i + 1 === lvl);
+        });
+
+        var wrapper = document.getElementById('results-wrapper');
+        var loader = document.getElementById('loader');
+        var loaderText = document.getElementById('loader-text');
+        loaderText.textContent = isEn ? 'Contemplating across levels...' : 'جاري التدبر بحسب المستويات';
+
+        var cacheKey = (isEn ? "EN_" : "AR_") + word.toLowerCase() + "_L" + lvl;
+        if (levelCache[cacheKey]) {
+            document.getElementById('content-' + lvl).innerHTML = levelCache[cacheKey];
+            loader.style.display = 'none';
+            wrapper.style.display = 'flex';
+            return;
+        }
+
+        wrapper.style.display = 'none';
+        loader.style.display = 'block';
+
+        var cleanW = isEn ? word.toLowerCase() : noTash(word);
+        var matches = await getQuranMatches(word, isEn);
+        var out = "";
+
+        if (lvl === 1) {
+            if (isEn) {
+                var stem = cleanW.replace(/(ing|ed|es|s|ly|ness|ful|less)$/, '');
+                out += '<div class="tool-tag">Morphology • Derivation • Lexicon</div>';
+                out += '<div class="section-block"><span class="section-label">1. Core Stem:</span><strong>(' + stem.toUpperCase() + ')</strong></div>';
+                out += '<div class="section-block"><span class="section-label">2. Quranic Frequency:</span>Appears in <strong>' + matches.length + '</strong> verse(s).</div>';
+            } else {
+                var root = cleanW.replace(/^ال/, '').replace(/^[وميتنأإ]/, '').replace(/[ةونيا]$/, '');
+                if (root.length > 3) root = root.replace(/[اوي]/g, '');
+                var rStr = root.length >= 2 ? root.split('').join(' - ') : cleanW.split('').join(' - ');
+                out += '<div class="tool-tag">علوم المستوى: الصرف • الاشتقاق • المعجم</div>';
+                out += '<div class="section-block"><span class="section-label">1. الجذر اللغوي التقريبي:</span><strong>( ' + rStr + ' )</strong></div>';
+                out += '<div class="section-block"><span class="section-label">2. الإحصاء القرآني:</span>ورد هذا اللفظ في <strong>' + matches.length + '</strong> موضعاً في القرآن الكريم.</div>';
+            }
+        } else if (lvl === 2) {
+            out += '<div class="tool-tag">' + (isEn ? 'Quranic Verses & Context' : 'علوم المستوى: الآيات القرآنية والسياق') + '</div>';
+            if (matches.length === 0) {
+                out += '<div class="section-block">' + (isEn ? 'No exact verses found.' : 'لم يتم العثور على آيات مطابقة، جرب كتابة اللفظ بدون زوائد.') + '</div>';
+            } else {
+                matches.slice(0, 20).forEach(function(v) {
+                    var sName = isEn ? v.surah.englishName : v.surah.name;
+                    out += '<div class="verse-item"><div class="verse-meta">[' + sName + ' : ' + v.numberInSurah + ']</div><div>' + hl(v.text, word, isEn) + '</div></div>';
+                });
+            }
+        } else if (lvl === 3) {
+            out += '<div class="tool-tag">' + (isEn ? 'Previous Scriptures Comparison' : 'علوم المستوى: المقارنة مع الكتب السابقة') + '</div>';
+            out += '<div class="section-block">' + (isEn ? 'Comparative analysis of (' + word + ') across earlier revelations.' : 'مقارنة دلالة لفظ (' + word + ') في الكتب السابقة وعرضها على المهيمن (القرآن الكريم).') + '</div>';
+        } else if (lvl === 4) {
+            out += '<div class="tool-tag">' + (isEn ? 'Quranic Criterion & Narrations' : 'علوم المستوى: الميزان القرآني والمرويات') + '</div>';
+            out += '<div class="section-block">' + (isEn ? 'Evaluating narrations related to (' + word + ') against Quranic truth.' : 'عرض المرويات الواردة في باب (' + word + ') على كتاب الله لتمييز الحق من الباطل.') + '</div>';
+        } else if (lvl === 5) {
+            out += '<div class="tool-tag">' + (isEn ? 'Decisive Rulings (Muhkam)' : 'علوم المستوى: الآيات المحكمات والأحكام') + '</div>';
+            out += '<div class="section-block">' + (isEn ? 'Returning ambiguous meanings to clear decisive verses.' : 'رد المتشابه إلى الآيات المحكمات البينات لاستنباط الحكم الصحيح للفظ (' + word + ').') + '</div>';
+            matches.slice(0, 5).forEach(function(v) {
+                var sName = isEn ? v.surah.englishName : v.surah.name;
+                out += '<div class="verse-item"><div class="verse-meta">[' + sName + ' : ' + v.numberInSurah + ']</div><div>' + hl(v.text, word, isEn) + '</div></div>';
+            });
+        } else if (lvl === 6) {
+            out += '<div class="tool-tag">' + (isEn ? 'Summit Sciences & Ta'wil' : 'علوم المستوى: القمة والتأويل النهائي') + '</div>';
+            out += '<div class="section-block">' + (isEn ? 'Final purified synthesis for (' + word + ').' : 'خلاصة التدبر الهرمي المتدرج للفظ (' + word + ') من القاعدة اللغوية إلى قمة الفهم والتأويل.') + '</div>';
+        }
+
+        levelCache[cacheKey] = out;
+        document.getElementById('content-' + lvl).innerHTML = out;
+        loader.style.display = 'none';
+        wrapper.style.display = 'flex';
+    }
+});
+</script>
+</body>
+</html>
